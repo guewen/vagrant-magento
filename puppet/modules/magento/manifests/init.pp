@@ -20,13 +20,13 @@ class magento {
 
   exec { "download-magento":
     cwd => "/tmp",
-    command => "/usr/bin/wget http://www.magentocommerce.com/downloads/assets/1.6.0.0/magento-1.6.0.0.tar.gz",
-    creates => "/tmp/magento-1.6.0.0.tar.gz"
+    command => "/usr/bin/wget www.magentocommerce.com/downloads/assets/${magento_version}/magento-${magento_version}.tar.gz",
+    creates => "/tmp/magento-${magento_version}.tar.gz"
   }
   
   exec { "untar-magento":
     cwd => $document_root,
-    command => "/bin/tar xvzf /tmp/magento-1.6.0.0.tar.gz",
+    command => "/bin/tar xvzf /tmp/magento-${magento_version}.tar.gz",
     require => [Exec["download-magento"],  Class["zendserverce"]]
   }
 
@@ -52,10 +52,10 @@ class magento {
     --db_name "magentodb" \
     --db_user "magento" \
     --db_pass "secret" \
-    --url "http://magento.localhost:8080/magento" \
+    --url "http://localhost:8080/magento" \
     --use_rewrites "yes" \
     --use_secure "no" \
-    --secure_base_url "http://magento.localhost:8080/magento" \
+    --secure_base_url "http://localhost:8080/magento" \
     --use_secure_admin "no" \
     --skip_url_validation "yes" \
     --admin_firstname "Store" \
@@ -65,5 +65,5 @@ class magento {
     --admin_password "secret123"',
     require => [Exec["setting-permissions"],Exec["create-magentodb-db"]],
   }
-  	
+	
 }
