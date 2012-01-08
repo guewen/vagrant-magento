@@ -63,7 +63,7 @@ class magento {
     --admin_email "email@address.com" \
     --admin_username "admin" \
     --admin_password "secret123"',
-    require => [Exec["setting-permissions"],Exec["create-magentodb-db"]],
+    require => [Exec["grant-magentodb-db-localhost"],Exec["setting-permissions"],Exec["create-magentodb-db"]],
   }
 	
 }
